@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -58,6 +58,36 @@ class TestHTMLNode(unittest.TestCase):
         node = LeafNode("b", "You are rather bold!")
         expected = '<b>You are rather bold!</b>'
         self.assertEqual(node.to_html(), expected)
+
+
+    def test_parent_node_single_leaf_child(self):
+        child_node = LeafNode(tag="b", value="Bold text")
+        parent_node = ParentNode(tag="p", children=[child_node])
+        
+        result_html = parent_node.to_html()
+        
+        expected = "<p><b>Bold text</b></p>"
+        self.assertEqual(result_html, expected)
+
+
+    def test_parent_node_with_unexpected_structure(self):
+        child_parent_node = ParentNode(tag="div", children=[LeafNode(None, "Nested text")])
+        main_parent_node = ParentNode(tag="section", children=[child_parent_node])
+        
+        result_html = main_parent_node.to_html()
+        
+        expected = "<section><div>Nested text</div></section>"
+        self.assertEqual(result_html, expected)
+
+
+    def test_parent_node_without_children(self):
+        parent_node = ParentNode(tag="p", children=[])
+        
+        try:
+            parent_node.to_html()
+            assert False, "A ValueError was expected for ParentNode without children"
+        except ValueError as e:
+            assert str(e) == "ParentNode must have at least one child", "Unexpected error message"
 
 
 
