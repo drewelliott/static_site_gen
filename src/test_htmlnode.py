@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import unittest
 
-from htmlnode import HTMLNode
+from htmlnode import HTMLNode, LeafNode
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -43,6 +43,22 @@ class TestHTMLNode(unittest.TestCase):
         )
         expected_repr = "HTMLNode(tag='p', value='The quick...', children=None, props={'target': '_blank'})"
         self.assertEqual(repr(node), expected_repr)
+
+    def test_leafnode_initialization(self):
+        node = LeafNode("p", "This is a paragraph of text.")
+        self.assertEqual(node.tag, "p")
+        self.assertEqual(node.value, "This is a paragraph of text.")
+
+    def test_leafnode_props_to_html(self):
+        node = LeafNode("a", "Yahoo!", {"href": "https://www.yahoo.com"})
+        expected = '<a href="https://www.yahoo.com">Yahoo!</a>'
+        self.assertEqual(node.to_html(), expected)
+
+    def test_leafnode_to_html(self):
+        node = LeafNode("b", "You are rather bold!")
+        expected = '<b>You are rather bold!</b>'
+        self.assertEqual(node.to_html(), expected)
+
 
 
 if __name__ == "__main__":
