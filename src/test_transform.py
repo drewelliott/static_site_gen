@@ -35,14 +35,14 @@ class TestTextNodeToHTML(unittest.TestCase):
         self.assertEqual(html_node.props, None)
 
     def test_link_conversion(self):
-        text_node = TextNode("link test", TextType.LINKS, "http://www.example.com")
+        text_node = TextNode("link test", TextType.LINK, "http://www.example.com")
         html_node = text_node_to_html_node(text_node)
         self.assertEqual(html_node.tag, "a")
         self.assertEqual(html_node.value, "link test")
         self.assertEqual(html_node.props, { "href" : "http://www.example.com"})
 
     def test_image_conversion(self):
-        text_node = TextNode("image test", TextType.IMAGES, "../images/test.jpg")
+        text_node = TextNode("image test", TextType.IMAGE, "../images/test.jpg")
         html_node = text_node_to_html_node(text_node)
         self.assertEqual(html_node.tag, "img")
         self.assertEqual(html_node.value, "")
