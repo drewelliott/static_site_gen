@@ -7,7 +7,7 @@ from transform import text_node_to_html_node
 class TestTextNodeToHTML(unittest.TestCase):
 
     def test_text_conversion(self):
-        text_node = TextNode("Hello, world!", TextType.NORMAL)
+        text_node = TextNode("Hello, world!", TextType.TEXT)
         html_node = text_node_to_html_node(text_node)
         self.assertIsNone(html_node.tag)
         self.assertEqual(html_node.value, "Hello, world!")
@@ -49,7 +49,7 @@ class TestTextNodeToHTML(unittest.TestCase):
         self.assertEqual(html_node.props, { "src" : "../images/test.jpg", "alt" : "image test" })
 
     def test_invalid_text_type(self):
-        text_node = TextNode("test", TextType.NORMAL)
+        text_node = TextNode("test", TextType.TEXT)
         text_node.text_type = "INVALID"
         with self.assertRaises(Exception):
             text_node_to_html_node(text_node)
