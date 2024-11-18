@@ -9,18 +9,24 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             new_nodes.append(node)
 
         else:
-            split_node = node.text.split(delimiter)
-            if len(split_node) < 3:
+            start = node.text.find(delimiter)
+            if start == -1:
+                new_nodes.append(node)
+                continue
+
+            end = node.text.find(delimiter, start + len(delimiter))
+            if end == -1:
                 raise ValueError("Invalid markdown syntax")
 
-            new_nodes.extend([
-                TextNode(split_node[0], TextType.TEXT),
-                TextNode(split_node[1], text_type),
-                TextNode(split_node[2], TextType.TEXT)
-            ])
+            node0 = TextNode(node.text[:start], TextType.TEXT)
+            node1 = TextNode(node.text[start + len(delimiter):end], text_type)
+            node2 = TextNode(node.text[end + len(delimiter):], TextType.TEXT)
+
+            new_nodes.extend([ node0, node1 ])
+            new_nodes.extend(split_nodes_delimiter([node2], delimiter, text_type))
 
     return new_nodes
-        
+            
 
 def split_nodes_link(old_nodes):
     new_nodes = []
@@ -95,6 +101,3 @@ def split_nodes_image(old_nodes):
             new_nodes.append(TextNode(node.text[pos:], TextType.TEXT))
 
     return new_nodes
-
-
-
