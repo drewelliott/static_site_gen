@@ -1,5 +1,3 @@
-
-
 def markdown_to_blocks(markdown):
     block_list = []
     md_list = markdown.split("\n\n")
@@ -8,4 +6,3 @@ def markdown_to_blocks(markdown):
             block_list.append(item.strip())
 
     return block_list
-        
