@@ -1,7 +1,9 @@
 from split import split_nodes_link, split_nodes_image, split_nodes_delimiter
 from textnode import TextType, TextNode
 
+
 def text_to_textnodes(text:str) -> list:
+  
     nodes = [TextNode(text, TextType.TEXT)]
 
     nodes = split_nodes_image(nodes)
@@ -11,4 +13,3 @@ def text_to_textnodes(text:str) -> list:
     nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
     
     return nodes
-
