@@ -1,6 +1,6 @@
 import unittest
-from textnode import TextNode, TextType
-from transform import text_node_to_html_node
+from src.textnode import TextNode, TextType
+from src.transform import text_node_to_html_node
 
 
 class TestTransform(unittest.TestCase):
