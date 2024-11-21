@@ -1,10 +1,9 @@
 import unittest
 from textnode import TextNode, TextType
-from htmlnode import LeafNode
 from transform import text_node_to_html_node
 
 
-class TestTextNodeToHTML(unittest.TestCase):
+class TestTransform(unittest.TestCase):
 
     def test_text_conversion(self):
         text_node = TextNode("Hello, world!", TextType.TEXT)
