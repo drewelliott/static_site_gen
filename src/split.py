@@ -1,8 +1,13 @@
 from src.textnode import TextType, TextNode
 from src.extract import extract_markdown_images, extract_markdown_links
+from typing import List
 
 
-def split_nodes_delimiter(old_nodes, delimiter, text_type):
+def split_nodes_delimiter(
+    old_nodes: List[TextNode], 
+    delimiter: str, 
+    text_type: TextType
+) -> List[TextNode]:
     new_nodes = []
 
     for node in old_nodes:
@@ -29,7 +34,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     return new_nodes
             
 
-def split_nodes_link(old_nodes):
+def split_nodes_link(old_nodes: List[TextNode]) -> List[TextNode]:
     new_nodes = []
     for node in old_nodes:
         if node.text_type != TextType.TEXT:
@@ -66,7 +71,7 @@ def split_nodes_link(old_nodes):
 
 
 
-def split_nodes_image(old_nodes):
+def split_nodes_image(old_nodes: List[TextNode]) -> List[TextNode]:
     new_nodes = []
 
     for node in old_nodes:

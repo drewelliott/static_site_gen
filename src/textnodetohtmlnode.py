@@ -1,9 +1,9 @@
 
 from src.htmlnode import LeafNode
-from src.textnode import TextType
+from src.textnode import TextNode, TextType
 
 
-def text_node_to_html_node(text_node):
+def text_node_to_html_node(text_node: TextNode) -> LeafNode:
     match(text_node.text_type):
         case(TextType.TEXT):            
             return LeafNode(tag=None, value=text_node.text)
