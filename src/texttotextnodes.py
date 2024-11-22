@@ -4,6 +4,7 @@ from typing import List
 
 
 def text_to_textnodes(text: str) -> List[TextNode]:
+  
     nodes = [TextNode(text, TextType.TEXT)]
 
     nodes = split_nodes_image(nodes)
@@ -13,4 +14,3 @@ def text_to_textnodes(text: str) -> List[TextNode]:
     nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
     
     return nodes
-
