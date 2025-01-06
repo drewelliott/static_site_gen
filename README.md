@@ -98,7 +98,11 @@ They should behave very similarly to split_nodes_delimiter, but obviously don't 
 
 [extract.py](src/extract.py)
 
+#### extract_markdown_images
+
 a function extract_markdown_images(text) that takes raw markdown text and returns a list of tuples. Each tuple should contain the alt text and the URL of any markdown images.
+
+#### extract_markdown_links
 
 a similar function extract_markdown_links(text) that extracts markdown links instead of images. It should return tuples of anchor text and URLs.
 
