@@ -10,20 +10,15 @@ def copy_static_to_public() -> None:
     static_dir = script_dir.parent / "static"
     public_dir = script_dir.parent / "public"
 
-    print(f"Checking if {public_dir} exists...")
     if public_dir.exists():
-        print(f"Removing {public_dir}...")
         shutil.rmtree(public_dir)
 
-    print(f"Creating fresh {public_dir}...")
     public_dir.mkdir(parents=True, exist_ok=True)
 
     copy_recursive(static_dir, public_dir)
 
 
 def copy_recursive(source: Path, dest: Path) -> None:
-    print(f"Source: {source}")
-    print(f"Dest: {dest}")
     if source.is_file():
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(source, dest)
