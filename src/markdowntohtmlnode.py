@@ -1,6 +1,8 @@
-from src.markdowntoblocks import markdown_to_blocks
-from src.blocktoblocktype import block_to_block_type
-from src.htmlnode import HTMLNode, LeafNode, ParentNode
+from markdowntoblocks import markdown_to_blocks
+from blocktoblocktype import block_to_block_type
+from texttotextnodes import text_to_textnodes
+from textnodetohtmlnode import text_node_to_html_node
+from htmlnode import HTMLNode, LeafNode, ParentNode
 from typing import List, Tuple
 
 
@@ -17,41 +19,44 @@ def markdown_to_html_node(markdown: str) -> ParentNode:
     return html_node
 
 
-def text_to_children(markdown: str) -> List['HTMLNode']:
+def text_to_children(block: str) -> List['HTMLNode']:
     html_node_list = []
-    block_type = block_to_block_type(markdown)
+    block_type = block_to_block_type(block)
 
     if block_type == "heading":
-        tag_tuple = parse_heading(markdown)
+        tag_tuple = parse_heading(block)
         html_node_list.append(LeafNode(tag_tuple[0], tag_tuple[1]))
 
     if block_type == "quote":
-        tag_tuple = parse_quote(markdown)
+        tag_tuple = parse_quote(block)
         html_node_list.append(LeafNode(tag_tuple[0], tag_tuple[1]))
 
     if block_type == "code":
-        tag_tuple = parse_code(markdown)
+        tag_tuple = parse_code(block)
         children = [LeafNode(tag_tuple[1][0], tag_tuple[1][1])]
         html_node_list.append(ParentNode(tag_tuple[0], children))
 
     if block_type == "unordered_list":
         children = []
-        tag_tuple = parse_unordered_list(markdown)
+        tag_tuple = parse_unordered_list(block)
         tag = tag_tuple[0]
         for child in tag_tuple[1]:
-            children.append(LeafNode(child[0], child[1]))
+            children.append(ParentNode(child[0], child[1]))
         html_node_list.append(ParentNode(tag, children))
 
     if block_type == "ordered_list":
         children = []
-        tag_tuple = parse_ordered_list(markdown)
+        tag_tuple = parse_ordered_list(block)
         tag = tag_tuple[0]
         for child in tag_tuple[1]:
-            children.append(LeafNode(child[0], child[1]))
+            children.append(ParentNode(child[0], child[1]))
         html_node_list.append(ParentNode(tag, children))
 
     if block_type == "paragraph":
-        html_node_list.append(LeafNode("p", markdown))
+        print(block)
+        text_nodes = text_to_textnodes(block)
+        html_nodes = [text_node_to_html_node(node) for node in text_nodes]
+        html_node_list.append(ParentNode("p", html_nodes))
 
     return html_node_list
 
@@ -90,7 +95,10 @@ def parse_unordered_list(markdown: str) -> Tuple[str, List[Tuple[str, str]]]:
         if len(parts) > 1:
             text = parts[1].strip()
             if text:
-                list_items.append(("li", text))
+                text_nodes = text_to_textnodes(text)
+                html_nodes = [text_node_to_html_node(
+                    node) for node in text_nodes]
+                list_items.append(("li", html_nodes))
 
     return ("ul", list_items)
 
@@ -104,6 +112,9 @@ def parse_ordered_list(markdown: str) -> Tuple[str, List[Tuple[str, str]]]:
         if parts[0][-1] == '.' and parts[0][:-1].isdigit() and len(parts) > 1:
             text = parts[1].strip()
             if text:
-                list_items.append(("li", text))
+                text_nodes = text_to_textnodes(text)
+                html_nodes = [text_node_to_html_node(
+                    node) for node in text_nodes]
+                list_items.append(("li", html_nodes))
 
     return ("ol", list_items)
