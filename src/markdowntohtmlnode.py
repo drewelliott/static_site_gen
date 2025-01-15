@@ -53,7 +53,6 @@ def text_to_children(block: str) -> List['HTMLNode']:
         html_node_list.append(ParentNode(tag, children))
 
     if block_type == "paragraph":
-        print(block)
         text_nodes = text_to_textnodes(block)
         html_nodes = [text_node_to_html_node(node) for node in text_nodes]
         html_node_list.append(ParentNode("p", html_nodes))

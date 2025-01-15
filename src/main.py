@@ -32,9 +32,6 @@ def copy_recursive(source: Path, dest: Path) -> None:
 
 def generate_page(from_path: Path, template_path: Path, dest_path: Path) -> None:
 
-    print(f"Generating page from {from_path} to {
-          dest_path} using {template_path}")
-
     dest_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(from_path, "r") as fh:
@@ -57,19 +54,15 @@ def generate_page(from_path: Path, template_path: Path, dest_path: Path) -> None
 def generate_pages_recursive(content_path: Path, template_path: Path, dest_path: Path) -> None:
 
     if content_path.is_dir():
-        print(f"Creating path: {dest_path}")
         dest_path.mkdir(parents=True, exist_ok=True)
         for item in content_path.iterdir():
             relative_path = item.relative_to(content_path)
             new_dest = dest_path / relative_path
-            print(f"Gen Pages Recursive: {item}, {template_path}, {new_dest}")
             generate_pages_recursive(item, template_path, new_dest)
 
     elif content_path.suffix == ".md":
         new_dest_path = Path(str(dest_path).replace('.md', '.html'))
         new_dest_path.parent.mkdir(parents=True, exist_ok=True)
-        print(f"Content_path: {content_path}")
-        print(f"New_dest_path: {new_dest_path}")
         generate_page(content_path, template_path, new_dest_path)
 
 
@@ -80,9 +73,6 @@ def main() -> None:
     public_path = script_path .parent / "public"
     template_path = script_path.parent / "src/templates/template.html"
     content_path = script_path.parent / "content"
-    print(f"Script Path: {script_path}")
-    print(f"Public Path: {public_path}")
-    print(f"Static Path: {static_path}")
     copy_static_to_public(static_path, public_path)
     generate_pages_recursive(content_path, template_path, public_path)
 
