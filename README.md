@@ -2,6 +2,11 @@
 
 Static Website Generator
 
+This application will find all markdown files in the [content](content) directory and convert those markdown files to html.
+
+To run: `./main.sh` from the main directory.
+
+
 # Nodes:
 
     TextNode(TEXT, TEXT_TYPE, URL)
