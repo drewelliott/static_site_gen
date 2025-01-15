@@ -79,7 +79,6 @@ class ParentNode(HTMLNode):
             raise ValueError("ParentNode must have a tag")
         result = [f"<{self.tag}{self.props_to_html()}>"]
         for child in self.children:
-            print(child)
             result.append(child.to_html())
         result.append(f"</{self.tag}>")
 
